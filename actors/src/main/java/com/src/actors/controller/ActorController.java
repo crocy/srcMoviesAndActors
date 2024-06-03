@@ -3,11 +3,15 @@ package com.src.actors.controller;
 import com.src.actors.model.Actor;
 import com.src.actors.service.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api/v1/actors")
@@ -20,10 +24,11 @@ public class ActorController {
     this.actorService = actorService;
   }
 
+  @Cacheable("actors")
   @GetMapping
   public ResponseEntity<Page<Actor>> getAllActors(Pageable pageable) {
     Page<Actor> actors = actorService.getAllActors(pageable);
-    return ResponseEntity.ok(actors);
+    return ResponseEntity.ok().cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)).body(actors);
   }
 
   @GetMapping("/{id}")

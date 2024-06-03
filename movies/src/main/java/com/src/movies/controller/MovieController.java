@@ -3,11 +3,15 @@ package com.src.movies.controller;
 import com.src.movies.model.Movie;
 import com.src.movies.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api/v1/movies")
@@ -21,9 +25,10 @@ public class MovieController {
   }
 
   @GetMapping
+  @Cacheable("movies")
   public ResponseEntity<Page<Movie>> getAllMovies(Pageable pageable) {
     Page<Movie> movies = movieService.getAllMovies(pageable);
-    return ResponseEntity.ok(movies);
+    return ResponseEntity.ok().cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)).body(movies);
   }
 
   @GetMapping("/{id}")
