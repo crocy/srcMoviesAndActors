@@ -1,0 +1,9 @@
+services:
+  movies:
+    build: ./movies
+    ports:
+      - "8080:8080"
+  actors:
+    build: ./actors
+    ports:
+      - "8081:8081"
