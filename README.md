@@ -41,6 +41,8 @@ Implement REST operations to support basic UI requirements:
 
 # How to run
 
+## Via script
+
 To run the demo (on Linux), run the `build_and_run.sh` script from the project's root folder
 
 ```bash
@@ -51,6 +53,15 @@ If you can't run the script, give it execute permissions first (and then rerun i
 
 ```bash
 chmod +x build_and_run.sh
+```
+
+## Manually
+
+The Actor and the Movies service can be run manually from the project's root by running:
+
+```bash
+(cd actors && ./gradlew bootRun)
+(cd movies && ./gradlew bootRun)
 ```
 
 # URLs
@@ -147,6 +158,20 @@ More URLs:
 Server side caches can be checked via the `/actuator/caches` URL.
 
 # Testing
+
+Tests can be run by running the following commands from the project's root:
+
+```bash
+(cd actors && ./gradlew test)
+(cd movies && ./gradlew test)
+```
+
+Or for more info:
+
+```bash
+(cd actors && ./gradlew test -i | grep -E -v "^Executing |^Creating |^Parsing |^Using |^Merging |^Download |^title=Compiling|^AAPT|^future=|^task=|:app:|V/InstrumentationResultParser:")
+(cd movies && ./gradlew test -i | grep -E -v "^Executing |^Creating |^Parsing |^Using |^Merging |^Download |^title=Compiling|^AAPT|^future=|^task=|:app:|V/InstrumentationResultParser:")
+```
 
 # Improvements
 
