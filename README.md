@@ -138,14 +138,18 @@ More URLs:
 
 # Caching
 
-Caching was implemented as a `Cache-Control` header and on the server side for the get all actors and movies requests.
-
 Server side caches can be checked via the `/actuator/caches` URL.
 
 # Testing
 
 # Improvements
 
-* Use more secure login credentials for the DB and the app (quick/test ones were used)
+* Use more secure login credentials for the DB and the app (quick/test ones were used).
 * Actuator endpoints could be narrowed down to just the `/actuator/metrics` URL to prevent excess data exposure (as a
-  security measure)
+  security measure).
+* Lombok's `@Data` annotation could be replaced with Java's record class.
+* Add more logs to see what's going on in the apps.
+* Move common logic to a common lib.
+* CSRF shouldn't be disabled in a production environment (it's disabled for easier testing).
+* If needed, cache headers could be added to HTTP request responses as well.
+* Different profiles could be used for testing, dev and prod environments.
