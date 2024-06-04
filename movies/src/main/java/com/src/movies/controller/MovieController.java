@@ -8,11 +8,14 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -45,6 +48,19 @@ public class MovieController {
     return ResponseEntity.ok(movie);
   }
 
+  // find movies by example
+  @GetMapping(Routes.MOVIES_FIND)
+  public ResponseEntity<List<Movie>> getMoviesByExample(Long id, String title, Integer yearReleased,
+                                                        String description) {
+    log.info("GET: finding movies by example: id={}, title={}, yearReleased={}, description={}", id, title,
+        yearReleased, description);
+    Example<Movie> example = Example.of(new Movie(id, title, yearReleased, description, null));
+    log.info("GET: example: {}", example);
+    List<Movie> movies = movieService.getMoviesByExample(example);
+    log.info("GET: returning movies: {}", movies);
+    return ResponseEntity.ok(movies);
+  }
+
   @Caching(evict = @CacheEvict(value = CACHE_MOVIES, allEntries = true))
   @PostMapping
   public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
@@ -69,4 +85,5 @@ public class MovieController {
     movieService.deleteMovie(id);
     return ResponseEntity.noContent().build();
   }
+
 }

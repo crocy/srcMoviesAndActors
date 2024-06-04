@@ -65,6 +65,7 @@ Login credentials:
 HTTP request:
 
 * GET: http://localhost:8081/api/v1/actors - returns a list of all actors in the DB
+    * supports pagination with `page` and `size` URL params - example: http://localhost:8081/api/v1/actors?size=2&page=1
 * GET: http://localhost:8081/api/v1/actors/{id} - returns an actor with the given `{id}` if it exists
 * POST: http://localhost:8081/api/v1/actors - creates a new actor (from the request's body) and returns it if it was
   successfully added to the DB (ID doesn't already exist). Example of the request's body:
@@ -90,9 +91,14 @@ Login credentials:
 
 HTTP request:
 
-* GET: http://localhost:8081/api/v1/movies - returns a list of all movies in the DB
-* GET: http://localhost:8081/api/v1/movies/{id} - returns a movie with the given `{id}` if it exists
-* POST: http://localhost:8081/api/v1/movies - creates a new movie (from the request's body) and returns it if it was
+* GET: http://localhost:8080/api/v1/movies - returns a list of all movies in the DB
+    * supports pagination with `page` and `size` URL params - example: http://localhost:8080/api/v1/movies?size=2&page=1
+* GET: http://localhost:8080/api/v1/movies/{id} - returns a movie with the given `{id}` if it exists
+*
+GET: http://localhost:8080/api/v1/movies/find?id={id}&title={title}&yearReleased={yearReleased}&description={description} -
+returns a list of all movies matching any (number) of the supplied URL params
+    * Example: find all (3) movies released in 1994: http://localhost:8080/api/v1/movies/find?yearReleased=1994
+* POST: http://localhost:8080/api/v1/movies - creates a new movie (from the request's body) and returns it if it was
   successfully added to the DB (ID doesn't already exist). Example of the request's body:
   ```json
   {
@@ -103,9 +109,9 @@ HTTP request:
     "actorsIds": [1, 2, 3]
   }
   ```
-* PUT: http://localhost:8081/api/v1/movies/{id} - updates an existing movie (from the request's body, same as in the
+* PUT: http://localhost:8080/api/v1/movies/{id} - updates an existing movie (from the request's body, same as in the
   POST request) and returns it if it was successfully updated to the DB (valid movie `{id}` was provided)
-* DELETE: http://localhost:8081/api/v1/movies/{id} - deletes an existing movie with the given `{id}`
+* DELETE: http://localhost:8080/api/v1/movies/{id} - deletes an existing movie with the given `{id}`
 
 # Metrics
 
@@ -153,3 +159,5 @@ Server side caches can be checked via the `/actuator/caches` URL.
 * CSRF shouldn't be disabled in a production environment (it's disabled for easier testing).
 * If needed, cache headers could be added to HTTP request responses as well.
 * Different profiles could be used for testing, dev and prod environments.
+* Better code documentation.
+* Stricter DB schema (defined in the code) by using `@Column(nullable = false)` and similar annotations.

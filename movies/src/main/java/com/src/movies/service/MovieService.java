@@ -3,9 +3,12 @@ package com.src.movies.service;
 import com.src.movies.model.Movie;
 import com.src.movies.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MovieService {
@@ -43,5 +46,9 @@ public class MovieService {
 
   public void deleteMovie(Long id) {
     movieRepository.deleteById(id);
+  }
+
+  public List<Movie> getMoviesByExample(Example<Movie> example) {
+    return movieRepository.findAll(example);
   }
 }

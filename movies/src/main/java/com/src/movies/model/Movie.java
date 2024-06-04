@@ -21,7 +21,7 @@ public class Movie {
   @Column(columnDefinition = "TEXT")
   private String title;
   @Column(name = "year_released")
-  private int yearReleased;
+  private Integer yearReleased;
   @Column(columnDefinition = "TEXT")
   private String description;
 
